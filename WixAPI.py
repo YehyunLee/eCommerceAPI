@@ -12,7 +12,7 @@ class WixAPI:
         self.client_secret = client_secret
         self.refresh_token = refresh_token
 
-    def get_access_token(self):
+    def get_access_token(self) -> str:
         oauth_url = 'https://www.wix.com/oauth/access'
 
         oauth_data = {
@@ -31,7 +31,44 @@ class WixAPI:
         # refresh_token = response.json()['refresh_token']
         return access_token
 
-    def create_product(self, access_token, product_data: dict):
+    def create_product(self, access_token, product_data: dict) -> str:
+        """
+        # create_product = wixAPI.create_product(get_access_token, {
+        #     "product": {
+        #         "name": "Created for Test Purpose T-shirt",
+        #         "productType": "physical",
+        #         "priceData": {
+        #             "price": 10.5
+        #         },
+        #         "description": "nice summer t-shirt",
+        #         "sku": "129df",
+        #         "visible": False,
+        #         "ribbon": "Sale",
+        #         "brand": "Nice",
+        #         "weight": 0.2,
+        #         "discount": {
+        #             "type": "AMOUNT",
+        #             "value": 1
+        #         },
+        #         "manageVariants": True,
+        #         "productOptions": [{
+        #             "name": "Size",
+        #             "choices": [{
+        #                     "value": "S",
+        #                     "description": "S"
+        #                 },
+        #                 {
+        #                     "value": "L",
+        #                     "description": "L"
+        #                 }
+        #             ]
+        #         }]
+        #     }
+        # })
+        :param access_token:
+        :param product_data:
+        :return:
+        """
         base_url = 'https://www.wixapis.com/stores/v1/products'
 
         headers = {
@@ -43,7 +80,7 @@ class WixAPI:
         product_id = response.json()['product']['id']
         return product_id
 
-    def list_folders(self, access_token: str):
+    def list_folders(self, access_token: str) -> dict:
         base_url = 'https://www.wixapis.com/site-media/v1/folders'
         headers = {
             'Content-Type': 'application/json',
@@ -52,7 +89,7 @@ class WixAPI:
         response = requests.get(base_url, headers=headers)
         return response.json()
 
-    def import_file(self, access_token, folder_id: str, file_url: str):
+    def import_file(self, access_token, folder_id: str, file_url: str) -> dict:
         base_url = 'https://www.wixapis.com/site-media/v1/files/import'
 
         headers = {
@@ -68,7 +105,7 @@ class WixAPI:
         response = requests.post(base_url, data=json.dumps(data), headers=headers)
         return response.json()
 
-    def query_100_products(self, access_token, offset):
+    def _query_100_products(self, access_token, offset) -> dict:
         # POST
         base_url = 'https://www.wixapis.com/stores-reader/v1/products/query'
         headers = {
@@ -87,7 +124,20 @@ class WixAPI:
         response = requests.post(base_url, data=json.dumps(data), headers=headers)
         return response.json()
 
-    def add_product_media(self, access_token, product_id: str, media_data: dict):
+    def query_all_products(self, access_token) -> dict:
+        offset = 0
+        products = {}
+        past_response = None
+        while True:
+            response = self._query_100_products(access_token, offset)
+            if past_response == response:
+                break
+            products.update(response)
+            offset += 100
+            past_response = response
+        return products
+
+    def add_product_media(self, access_token, product_id: str, media_data: dict) -> dict:
         base_url = f'https://www.wixapis.com/stores/v1/products/{product_id}/media'
         headers = {
             'Content-Type': 'application/json',
