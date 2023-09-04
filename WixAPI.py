@@ -43,72 +43,58 @@ class WixAPI:
         product_id = response.json()['product']['id']
         return product_id
 
-# 1. create folders
-# 2. https://dev.wix.com/docs/rest/api-reference/media/media-manager/files/import-file     uploade file
-# 3. add media
+    def list_folders(self, access_token: str):
+        base_url = 'https://www.wixapis.com/site-media/v1/folders'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': access_token
+        }
+        response = requests.get(base_url, headers=headers)
+        return response.json()
 
-    # POST list of folder id with access token as parameter
-
-    def get_folder_id(self, access_token: str):
-        base_url = 'https://www.wixapis.com/site-media/v1/folders/search'
+    def import_file(self, access_token, folder_id: str, file_url: str):
+        base_url = 'https://www.wixapis.com/site-media/v1/files/import'
 
         headers = {
             'Content-Type': 'application/json',
             'Authorization': access_token
         }
 
-        body = {
-            'rootFolder': 'MEDIA_ROOT',
-            'sort': {
-                'fieldName': 'displayName',
-                'order': 'ASC'
+        data = {
+            "url": file_url,
+            "parentFolderId": folder_id
+        }
+
+        response = requests.post(base_url, data=json.dumps(data), headers=headers)
+        return response.json()
+
+    def query_100_products(self, access_token, offset):
+        # POST
+        base_url = 'https://www.wixapis.com/stores-reader/v1/products/query'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': access_token
+        }
+        data = {
+            "query": {
+                "limit": 100,
+                "offset": offset
             },
-            'paging': {
-                'limit': 20
-            }
+            "includeVariants": False,
+            "includeHiddenProducts": True,
+            "includeMerchantSpecificData": False
         }
+        response = requests.post(base_url, data=json.dumps(data), headers=headers)
+        return response.json()
 
-        response = requests.post(base_url, data=json.dumps(body), headers=headers)
-
-        folders = response.json()['folders']
-
-        return folders[0]['id'] if folders else None
-
-
-    def upload_file(self, file_url: str, parent_folder_id: str, access_token: str):
-        base_url = 'https://www.wixapis.com/site-media/v1/files/generate-upload-url'
-
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': access_token
-        }
-
-        body = {
-            'mimeType': '*/*',
-            'fileName': None,
-            'parentFolderId': parent_folder_id
-        }
-
-        response = requests.post(base_url, data=json.dumps(body), headers=headers)
-        upload_url = response.json()['uploadUrl']
-
-        file_content = requests.get(file_url).content
-
-        response = requests.put(upload_url, data=file_content)
-
-        media_id = response.json()['mediaId']
-
-        return media_id
-
-    def add_media(self, access_token, product_id: str, media_data: dict):
+    def add_product_media(self, access_token, product_id: str, media_data: dict):
         base_url = f'https://www.wixapis.com/stores/v1/products/{product_id}/media'
         headers = {
             'Content-Type': 'application/json',
             'Authorization': access_token
         }
         response = requests.post(base_url, data=json.dumps(media_data), headers=headers)
-        return response
-
+        return response.json()
 
 # Refer to this for id, secret, refresh token
 # https://youtu.be/Ocp2vDiPq0A?si=m0G3Geur1pxF87FB
