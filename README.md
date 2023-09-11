@@ -11,3 +11,5 @@ To automate uploading and updating products, I am using Wix API.
 Other files not shown are Main.py and WebScraping.py.
 WebScraping.py is used to scrape product information that is legal to scrape and organize what to upload.
 Main.py is used to upload and update products.
+
+# Sep 10, 2023: Working on Product Data. Up to product options.
