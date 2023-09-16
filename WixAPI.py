@@ -31,40 +31,8 @@ class WixAPI:
         # refresh_token = response.json()['refresh_token']
         return access_token
 
-    def create_product(self, access_token, product_data: dict) -> str:
+    def create_product(self, access_token, product_data: dict) -> dict:
         """
-        # create_product = wixAPI.create_product(get_access_token, {
-        #     "product": {
-        #         "name": "Created for Test Purpose T-shirt",
-        #         "productType": "physical",
-        #         "priceData": {
-        #             "price": 10.5
-        #         },
-        #         "description": "nice summer t-shirt",
-        #         "sku": "129df",
-        #         "visible": False,
-        #         "ribbon": "Sale",
-        #         "brand": "Nice",
-        #         "weight": 0.2,
-        #         "discount": {
-        #             "type": "AMOUNT",
-        #             "value": 1
-        #         },
-        #         "manageVariants": True,
-        #         "productOptions": [{
-        #             "name": "Size",
-        #             "choices": [{
-        #                     "value": "S",
-        #                     "description": "S"
-        #                 },
-        #                 {
-        #                     "value": "L",
-        #                     "description": "L"
-        #                 }
-        #             ]
-        #         }]
-        #     }
-        # })
         :param access_token:
         :param product_data:
         :return:
@@ -145,6 +113,21 @@ class WixAPI:
         }
         response = requests.post(base_url, data=json.dumps(media_data), headers=headers)
         return response.json()
+
+    def query_100_collections(self, access_token) -> dict:
+        base_url = 'https://www.wixapis.com/stores/v1/collections/query'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': access_token
+        }
+        data = {
+            "query": {},
+            "includeNumberOfProducts": False,
+            "includeDescription": False
+        }
+        response = requests.post(base_url, data=json.dumps(data), headers=headers)
+        return response.json()
+
 
 # Refer to this for id, secret, refresh token
 # https://youtu.be/Ocp2vDiPq0A?si=m0G3Geur1pxF87FB

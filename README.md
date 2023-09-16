@@ -13,3 +13,4 @@ WebScraping.py is used to scrape product information that is legal to scrape and
 Main.py is used to upload and update products.
 
 # Sep 10, 2023: Working on Product Data. Up to product options.
+# Sep 15, 2024: Work on progress with Product Data function & Added query_100_collections in WixAPI.py
