@@ -31,11 +31,11 @@ class WixAPI:
         # refresh_token = response.json()['refresh_token']
         return access_token
 
-    def create_product(self, access_token, product_data: dict) -> dict:
+    def create_product(self, access_token, product_data: dict) -> str:
         """
         :param access_token:
         :param product_data:
-        :return:
+        :return: return product id as str
         """
         base_url = 'https://www.wixapis.com/stores/v1/products'
 
@@ -128,6 +128,30 @@ class WixAPI:
         response = requests.post(base_url, data=json.dumps(data), headers=headers)
         return response.json()
 
+    def bulk_delete_files(self, access_token, file_ids: list) -> dict:
+        base_url = 'https://www.wixapis.com/site-media/v1/bulk/files/delete'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': access_token
+        }
+        data = {
+            "fileIds": file_ids,
+            "permanent": True
+        }
+        response = requests.post(base_url, data=json.dumps(data), headers=headers)
+        return response.json()
+
+    def add_products_to_collection(self, access_token, collection_id: str, product_ids: list[str]) -> dict:
+        base_url = f'https://www.wixapis.com/stores/v1/collections/{collection_id}/productIds'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': access_token
+        }
+        data = {
+            "productIds": product_ids
+        }
+        response = requests.post(base_url, data=json.dumps(data), headers=headers)
+        return response.json()
 
 # Refer to this for id, secret, refresh token
 # https://youtu.be/Ocp2vDiPq0A?si=m0G3Geur1pxF87FB
