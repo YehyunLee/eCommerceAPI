@@ -16,3 +16,4 @@ Main.py is used to upload and update products.
 # Sep 15, 2023: Work on progress with Product Data function & Added query_100_collections in WixAPI.py
 # Sep 17, 2023: MVP done change with WixAPI, Main, WebScraping
 # Sep 22, 2023: Category capitalize letters, new category added, line break issue resolved, resolution issue resolved, prevent uploading sold products.
+# TODO: B, S, P need to be modified.
