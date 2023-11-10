@@ -17,3 +17,4 @@ Main.py is used to upload and update products.
 # Sep 17, 2023: MVP done change with WixAPI, Main, WebScraping
 # Sep 22, 2023: Category capitalize letters, new category added, line break issue resolved, resolution issue resolved, prevent uploading sold products.
 # Oct 27, 2023: Domain purchased. B, S, P has been modified. Before: B -> 'S/P', Now: B -> 'P'
+# Noc 10, 2023: Replaced - code removed and use name instead of slug to avoid duplicate product upload.
