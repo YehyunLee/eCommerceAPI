@@ -69,8 +69,15 @@ class WixAPI:
             "url": file_url,
             "parentFolderId": folder_id
         }
-
-        response = requests.post(base_url, data=json.dumps(data), headers=headers)
+        response = json.loads('{}')
+        try_num = 0
+        while try_num <= 3:
+            try:
+                try_num += 1
+                response = requests.post(base_url, data=json.dumps(data), headers=headers)
+                break
+            except Exception as e:
+                print(e)
         return response.json()
 
     def _query_100_products(self, access_token, offset) -> dict:
