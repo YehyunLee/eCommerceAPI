@@ -78,7 +78,7 @@ class WixAPI:
                 break
             except Exception as e:
                 print(e)
-        return response.json()
+        return response.json()  # simplejson.errors.JSONDecodeError: Expecting value: line 1 column 3 (char 2)
 
     def _query_100_products(self, access_token, offset) -> dict:
         # POST

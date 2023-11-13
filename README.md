@@ -19,3 +19,4 @@ Main.py is used to upload and update products.
 # Oct 27, 2023: Domain purchased. B, S, P has been modified. Before: B -> 'S/P', Now: B -> 'P'
 # Noc 10, 2023: Replaced - code removed, use name instead of slug to avoid duplicate product upload error. Size and color name opposite error fixed.
 # Nov 11, 2023: Fixing product upload failure.
+# Nov 12, 2023: Fixing product upload failure.
