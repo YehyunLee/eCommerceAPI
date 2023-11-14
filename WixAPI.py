@@ -46,6 +46,7 @@ class WixAPI:
 
         response = requests.post(base_url, data=json.dumps(product_data), headers=headers)
         product_id = response.json()['product']['id']
+        # KeyError: 'product'
         return product_id
 
     def list_folders(self, access_token: str) -> dict:
