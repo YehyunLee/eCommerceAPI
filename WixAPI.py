@@ -104,14 +104,18 @@ class WixAPI:
     def query_all_products(self, access_token) -> dict:
         offset = 0
         products = {}
-        past_response = None
+        countNum = 0
         while True:
             response = self._query_100_products(access_token, offset)
-            if past_response == response:
-                break
-            products.update(response)
+            totalResults = response['totalResults']
+            if products == {}:
+                products.update(response)
+            else:
+                products['products'].extend(response['products'])
+            countNum += len(response['products'])
             offset += 100
-            past_response = response
+            if totalResults <= countNum:
+                break
         return products
 
     def add_product_media(self, access_token, product_id: str, media_data: dict) -> dict:
