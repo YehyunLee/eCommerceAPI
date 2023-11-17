@@ -90,9 +90,10 @@ class WixAPI:
         }
         data = {
             "query": {
-                "limit": 100,
-                "offset": offset
-            },
+                "paging": {
+                    "limit": 100,
+                    "offset": offset
+                }},
             "includeVariants": False,
             "includeHiddenProducts": True,
             "includeMerchantSpecificData": False
