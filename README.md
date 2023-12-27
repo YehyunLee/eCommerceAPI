@@ -23,3 +23,5 @@ Main.py is used to upload and update products.
 # Nov 13, 2023: Fixing product duplicate.
 # Nov 17, 2023: Fixed product duplicate.
 # Dec 25, 2023: Extract duplicate items.
+# Dec 26, 2023: Disable sold out items continue feature & UTF-8 variable name setting.
+
