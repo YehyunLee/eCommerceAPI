@@ -26,3 +26,4 @@ Main.py is used to upload and update products.
 # Dec 26, 2023: Disable sold out items continue feature & UTF-8 variable name setting.
 # Jan 13, 2024: all_products_to_add saved as txt & incognito mode added.
 # Feb 3, 2024: '(' in product_name handling added.
+# May 18, 2024: Unselect added
